@@ -34,7 +34,7 @@ type NavbarLinkProps = NavbarLink & {
   showDivider?: boolean;
 };
 
-const NavbarLink: React.FC<NavbarLinkProps> = ({
+const NavbarLinkMobile: React.FC<NavbarLinkProps> = ({
   title,
   link,
   showDivider,
@@ -48,8 +48,31 @@ const NavbarLink: React.FC<NavbarLinkProps> = ({
           </Text>
         </Link>
       </NextLink>
-      {showDivider && <Divider w='250px' />}
+      {showDivider && <Divider w='250px' bgColor='blue.500' h='1px' />}
     </>
+  );
+};
+
+const NavbarLinkDesktop: React.FC<NavbarLink> = ({ link, title }) => {
+  return (
+    <NextLink passHref href={link}>
+      <Link
+        style={{ textDecoration: "none" }}
+        as={Button}
+        h='70px'
+        rounded='none'
+        minW='110px'
+        bgColor='inherit'
+        color='gray.100'
+        fontSize='lg'
+        _hover={{
+          color: "blue.500",
+          bgColor: "gray.100",
+        }}
+      >
+        {title}
+      </Link>
+    </NextLink>
   );
 };
 
@@ -70,7 +93,7 @@ const NavDrawerContent: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       <VStack h='full' w='full' justifyContent='center' spacing={8}>
         {navbarLinks.map((link, index) => {
           return (
-            <NavbarLink
+            <NavbarLinkMobile
               key={index}
               {...link}
               showDivider={index !== navbarLinks.length - 1}
@@ -122,6 +145,27 @@ const NavbarMenuMobile: React.FC = () => {
   );
 };
 
+const NavbarMenuDesktop: React.FC = () => {
+  return (
+    <HStack spacing={8} display={{ base: "none", md: "none", lg: "flex" }}>
+      <HStack spacing={0}>
+        {navbarLinks.map((link, index) => {
+          return <NavbarLinkDesktop {...link} key={index} />;
+        })}
+      </HStack>
+      <Button
+        onClick={() => signOut({ callbackUrl: "/" })}
+        bgColor='gray.50'
+        color='blue.500'
+        _hover={{ bgColor: "gray.100" }}
+        _active={{ bgColor: "gray.200" }}
+      >
+        Logout
+      </Button>
+    </HStack>
+  );
+};
+
 const Navbar: React.FC = () => {
   const router = useRouter();
   return (
@@ -138,6 +182,7 @@ const Navbar: React.FC = () => {
         </Heading>
       </HStack>
       <NavbarMenuMobile />
+      <NavbarMenuDesktop />
     </HStack>
   );
 };
