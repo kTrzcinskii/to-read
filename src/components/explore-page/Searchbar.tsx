@@ -1,0 +1,175 @@
+import { ChevronDownIcon, Search2Icon } from "@chakra-ui/icons";
+import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Box,
+  Button,
+  Flex,
+  HStack,
+  Icon,
+  IconButton,
+  Input,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
+import { Dispatch, SetStateAction } from "react";
+import I_SearchTerm from "../../libs/I_SearchTerm";
+
+interface SearchbarProps {
+  searchTerm: I_SearchTerm;
+  setSearchTerm: Dispatch<SetStateAction<I_SearchTerm>>;
+}
+
+const Searchbar: React.FC<SearchbarProps> = ({ searchTerm, setSearchTerm }) => {
+  const { mainQuery, author, category, publisher, title } = searchTerm;
+
+  return (
+    <VStack
+      w={{ base: "350px", md: "440px", lg: "600px", xl: "700px" }}
+      spacing={3}
+    >
+      <HStack w='full' spacing={2}>
+        <Input
+          value={mainQuery}
+          onChange={(e) =>
+            setSearchTerm((prev) => ({ ...prev, mainQuery: e.target.value }))
+          }
+          bgColor='white'
+          borderColor='blue.300'
+          focusBorderColor='blue.500'
+          borderWidth={2}
+          placeholder='Enter title, author or any keyword...'
+          _hover={{
+            borderColor: "blue.400",
+          }}
+        />
+        <IconButton
+          aria-label='Search'
+          icon={<Search2Icon />}
+          colorScheme='blue'
+        />
+      </HStack>
+      <Accordion
+        w={{ base: "full", md: "400px", lg: "450px" }}
+        border='none'
+        allowToggle
+      >
+        <AccordionItem border='none'>
+          <h2>
+            <AccordionButton
+              color='blue.500'
+              _hover={{ bgColor: "inherit" }}
+              role='group'
+            >
+              <Flex
+                mx='auto'
+                direction='row'
+                justifyContent='center'
+                alignItems='center'
+              >
+                <Box
+                  pr={2}
+                  _groupHover={{ pr: 4 }}
+                  transition='ease-in-out'
+                  transitionDuration='200ms'
+                >
+                  Show Advanced Options
+                </Box>
+                <AccordionIcon />
+              </Flex>
+            </AccordionButton>
+          </h2>
+          <AccordionPanel>
+            <VStack w='full' justifyContent='center' alignItems='center'>
+              <Input
+                w='full'
+                bgColor='white'
+                borderColor='blue.300'
+                focusBorderColor='blue.500'
+                borderWidth={2}
+                placeholder='Enter title...'
+                _hover={{
+                  borderColor: "blue.400",
+                }}
+                onChange={(e) =>
+                  setSearchTerm((prev) => ({
+                    ...prev,
+                    title: e.target.value,
+                  }))
+                }
+                value={title}
+              />
+              <Input
+                w='full'
+                bgColor='white'
+                borderColor='blue.300'
+                focusBorderColor='blue.500'
+                borderWidth={2}
+                placeholder='Enter author...'
+                _hover={{
+                  borderColor: "blue.400",
+                }}
+                onChange={(e) =>
+                  setSearchTerm((prev) => ({
+                    ...prev,
+                    author: e.target.value,
+                  }))
+                }
+                value={author}
+              />
+              <Input
+                w='full'
+                bgColor='white'
+                borderColor='blue.300'
+                focusBorderColor='blue.500'
+                borderWidth={2}
+                placeholder='Enter category...'
+                _hover={{
+                  borderColor: "blue.400",
+                }}
+                onChange={(e) =>
+                  setSearchTerm((prev) => ({
+                    ...prev,
+                    category: e.target.value,
+                  }))
+                }
+                value={category}
+              />
+              <Input
+                w='full'
+                bgColor='white'
+                borderColor='blue.300'
+                focusBorderColor='blue.500'
+                borderWidth={2}
+                placeholder='Enter publisher...'
+                _hover={{
+                  borderColor: "blue.400",
+                }}
+                onChange={(e) =>
+                  setSearchTerm((prev) => ({
+                    ...prev,
+                    publisher: e.target.value,
+                  }))
+                }
+                value={publisher}
+              />
+              <Box py={4}>
+                <Button colorScheme='blue'>
+                  <HStack spacing={2}>
+                    <Text>Search</Text>
+                    <Search2Icon />
+                  </HStack>
+                </Button>
+              </Box>
+            </VStack>
+          </AccordionPanel>
+        </AccordionItem>
+      </Accordion>
+    </VStack>
+  );
+};
+
+export default Searchbar;
