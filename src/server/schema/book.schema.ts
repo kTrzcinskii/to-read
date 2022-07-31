@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const SearchTermInput = z.object({
+export const SearchTerm = z.object({
   mainQuery: z.string(),
   author: z.string().optional(),
   title: z.string().optional(),
@@ -8,7 +8,16 @@ export const SearchTermInput = z.object({
   publisher: z.string().optional(),
 });
 
-export type ISearchTerm = z.TypeOf<typeof SearchTermInput>;
+export type ISearchTerm = z.TypeOf<typeof SearchTerm>;
+
+export const SearchTermInput = z.object({
+  mainQuery: z.string(),
+  author: z.string().optional(),
+  title: z.string().optional(),
+  category: z.string().optional(),
+  publisher: z.string().optional(),
+  startIndex: z.number().default(0),
+});
 
 interface VolumeInfo {
   title: string;
