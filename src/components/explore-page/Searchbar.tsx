@@ -16,14 +16,19 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { Dispatch, SetStateAction } from "react";
-import ISearchTerm from "../../libs/ISearchTerm";
+import { ISearchTerm } from "../../server/schema/book.schema";
 
 interface SearchbarProps {
   searchTerm: ISearchTerm;
   setSearchTerm: Dispatch<SetStateAction<ISearchTerm>>;
+  handleSearchClick: () => void;
 }
 
-const Searchbar: React.FC<SearchbarProps> = ({ searchTerm, setSearchTerm }) => {
+const Searchbar: React.FC<SearchbarProps> = ({
+  searchTerm,
+  setSearchTerm,
+  handleSearchClick,
+}) => {
   const { mainQuery, author, category, publisher, title } = searchTerm;
 
   return (
@@ -50,6 +55,7 @@ const Searchbar: React.FC<SearchbarProps> = ({ searchTerm, setSearchTerm }) => {
           aria-label='Search'
           icon={<Search2Icon />}
           colorScheme='blue'
+          onClick={handleSearchClick}
         />
       </HStack>
       <Accordion
@@ -157,7 +163,7 @@ const Searchbar: React.FC<SearchbarProps> = ({ searchTerm, setSearchTerm }) => {
                 value={publisher}
               />
               <Box py={4}>
-                <Button colorScheme='blue'>
+                <Button colorScheme='blue' onClick={handleSearchClick}>
                   <HStack spacing={2}>
                     <Text>Search</Text>
                     <Search2Icon />
