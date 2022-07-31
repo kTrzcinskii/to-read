@@ -1,4 +1,4 @@
-export default interface I_SearchTerm {
+export default interface ISearchTerm {
   mainQuery: string;
   title?: string;
   author?: string;

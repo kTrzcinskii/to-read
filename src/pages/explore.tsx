@@ -1,12 +1,12 @@
 import { Heading, VStack } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import { useState } from "react";
-import Searchbar from "../components/explore-page/searchbar";
+import Searchbar from "../components/explore-page/Searchbar";
 import Navbar from "../components/utils/Navbar";
-import I_SearchTerm from "../libs/I_SearchTerm";
+import ISearchTerm from "../libs/ISearchTerm";
 
 const ExplorePage: NextPage = () => {
-  const [searchTerm, setSearchTerm] = useState<I_SearchTerm>({ mainQuery: "" });
+  const [searchTerm, setSearchTerm] = useState<ISearchTerm>({ mainQuery: "" });
 
   return (
     <VStack bgColor='gray.100' minH='100vh'>

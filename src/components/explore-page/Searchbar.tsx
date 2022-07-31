@@ -1,4 +1,4 @@
-import { ChevronDownIcon, Search2Icon } from "@chakra-ui/icons";
+import { Search2Icon } from "@chakra-ui/icons";
 import {
   Accordion,
   AccordionButton,
@@ -16,11 +16,11 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { Dispatch, SetStateAction } from "react";
-import I_SearchTerm from "../../libs/I_SearchTerm";
+import ISearchTerm from "../../libs/ISearchTerm";
 
 interface SearchbarProps {
-  searchTerm: I_SearchTerm;
-  setSearchTerm: Dispatch<SetStateAction<I_SearchTerm>>;
+  searchTerm: ISearchTerm;
+  setSearchTerm: Dispatch<SetStateAction<ISearchTerm>>;
 }
 
 const Searchbar: React.FC<SearchbarProps> = ({ searchTerm, setSearchTerm }) => {
