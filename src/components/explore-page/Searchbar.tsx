@@ -9,7 +9,6 @@ import {
   Button,
   Flex,
   HStack,
-  Icon,
   IconButton,
   Input,
   Text,
@@ -22,12 +21,16 @@ interface SearchbarProps {
   searchTerm: ISearchTerm;
   setSearchTerm: Dispatch<SetStateAction<ISearchTerm>>;
   handleSearchClick: () => void;
+  isError: boolean;
+  setIsError: Dispatch<SetStateAction<boolean>>;
 }
 
 const Searchbar: React.FC<SearchbarProps> = ({
   searchTerm,
   setSearchTerm,
   handleSearchClick,
+  isError,
+  setIsError,
 }) => {
   const { mainQuery, author, category, publisher, title } = searchTerm;
 
@@ -43,13 +46,14 @@ const Searchbar: React.FC<SearchbarProps> = ({
             setSearchTerm((prev) => ({ ...prev, mainQuery: e.target.value }))
           }
           bgColor='white'
-          borderColor='blue.300'
+          borderColor={isError ? "red.400" : "blue.500"}
           focusBorderColor='blue.500'
           borderWidth={2}
           placeholder='Enter title, author or any keyword...'
           _hover={{
             borderColor: "blue.400",
           }}
+          onFocus={() => setIsError(false)}
         />
         <IconButton
           aria-label='Search'
@@ -58,6 +62,11 @@ const Searchbar: React.FC<SearchbarProps> = ({
           onClick={handleSearchClick}
         />
       </HStack>
+      {isError && (
+        <Text color='red.400' fontSize='sm'>
+          You cannot search books wihout filling this input.
+        </Text>
+      )}
       <Accordion
         w={{ base: "full", md: "400px", lg: "450px" }}
         border='none'
