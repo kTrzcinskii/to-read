@@ -21,6 +21,7 @@ export const SearchTermInput = z.object({
 
 interface VolumeInfo {
   title: string;
+  authors: string[];
   publishedDate: number;
   industryIdentifiers: { type: string; identifier: string }[];
   readingModes: { text: boolean; image: boolean };
@@ -49,7 +50,7 @@ interface SaleInfo {
   isEbook: boolean;
 }
 
-interface ReturnManyBooksSingleEleemt {
+export interface ReturnManyBooksSingleEleemt {
   kind: string;
   id: string;
   etag: string;
