@@ -1,4 +1,4 @@
-import { Box, Flex, chakra, VStack, HStack } from "@chakra-ui/react";
+import { Box, Flex, chakra, HStack } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 
 const loadingContainerVariants = {
@@ -22,15 +22,10 @@ const loadingCircleVariants = {
     y: "80%",
     transition: {
       duration: 0.5,
-      yoyo: Infinity,
+      reverse: Infinity,
       ease: "easeInOut",
     },
   },
-};
-const loadingCircleTransition = {
-  duration: 0.4,
-  yoyo: Infinity,
-  ease: "easeInOut",
 };
 
 const LoadingAni: React.FC = () => {
