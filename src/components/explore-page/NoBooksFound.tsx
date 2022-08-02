@@ -18,6 +18,7 @@ const NoBooksFound: React.FC<NoBooksFoundProps> = ({
       category: "",
       publisher: "",
       title: "",
+      langCode: "",
     });
     setFinalData(undefined);
   };

@@ -16,6 +16,8 @@ import {
 } from "@chakra-ui/react";
 import { Dispatch, SetStateAction } from "react";
 import { ISearchTerm } from "../../server/schema/book.schema";
+import Select, { StylesConfig } from "react-select";
+import { ILanguage, languagesList } from "../../utils/constants";
 
 interface SearchbarProps {
   searchTerm: ISearchTerm;
@@ -25,6 +27,29 @@ interface SearchbarProps {
   setIsError: Dispatch<SetStateAction<boolean>>;
 }
 
+const selectStyles: StylesConfig<ILanguage, false> = {
+  control: (styles: any, { isFocused }) => ({
+    ...styles,
+    border: isFocused ? "2px solid #2B6CB0" : "2px solid #63B3ED",
+    borderRadius: "0.375rem",
+
+    ":hover": {
+      border: isFocused ? "2px solid #2B6CB0" : "2px solid #4299E1",
+    },
+  }),
+  option: (styles: any) => {
+    return { ...styles };
+  },
+  dropdownIndicator: (base: any, { isFocused }: any) => ({
+    ...base,
+    color: isFocused ? "#2B6CB0" : "#A0AEC0",
+
+    ":hover": {
+      color: isFocused ? "#2B6CB0" : "#4299E1",
+    },
+  }),
+};
+
 const Searchbar: React.FC<SearchbarProps> = ({
   searchTerm,
   setSearchTerm,
@@ -32,7 +57,12 @@ const Searchbar: React.FC<SearchbarProps> = ({
   isError,
   setIsError,
 }) => {
-  const { mainQuery, author, category, publisher, title } = searchTerm;
+  const { mainQuery, author, category, publisher, title, langCode } =
+    searchTerm;
+
+  const label =
+    languagesList.filter((language) => language.value === langCode)[0]?.label ||
+    "Select";
 
   return (
     <VStack
@@ -171,6 +201,23 @@ const Searchbar: React.FC<SearchbarProps> = ({
                 }
                 value={publisher}
               />
+              <Box w='full'>
+                <Select
+                  placeholder='Select book language..'
+                  //@ts-ignore
+                  styles={selectStyles}
+                  options={languagesList}
+                  menuPosition='fixed'
+                  onChange={(e) =>
+                    setSearchTerm((prev) => ({ ...prev, langCode: e?.value }))
+                  }
+                  value={
+                    langCode !== ""
+                      ? { value: searchTerm.langCode, label: label }
+                      : null
+                  }
+                />
+              </Box>
               <Box py={4}>
                 <Button colorScheme='blue' onClick={handleSearchClick}>
                   <HStack spacing={2}>
