@@ -1,7 +1,10 @@
-import { Heading, VStack, chakra, Button } from "@chakra-ui/react";
+import { Heading, VStack, chakra } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
+import BooksContainer from "../components/explore-page/BooksContainer";
+import NoBooksFound from "../components/explore-page/NoBooksFound";
 import Searchbar from "../components/explore-page/Searchbar";
+import ErrorMessage from "../components/utils/ErrorMessage";
 import LoadingAni from "../components/utils/LoadingAni";
 import Navbar from "../components/utils/Navbar";
 import { IReturnManyBooks, ISearchTerm } from "../server/schema/book.schema";
@@ -15,8 +18,9 @@ const ExplorePage: NextPage = () => {
   const [finalData, setFinalData] = useState<IReturnManyBooks | undefined>(
     undefined
   );
+  const [isMainQueryError, setIsMainQueryError] = useState(false);
 
-  const { isLoading, isError, error } = trpc.useQuery(
+  const { isLoading, isError } = trpc.useQuery(
     ["books.get-books", { ...searchTerm, startIndex: page * MAX_RESULTS }],
     {
       enabled: isQueryEnabled,
@@ -27,36 +31,60 @@ const ExplorePage: NextPage = () => {
 
   const handleSearchClick = () => {
     if (searchTerm.mainQuery !== "") {
+      setFinalData(undefined);
       setIsQueryEnabled(true);
       setPage(0);
     } else {
       setIsQueryEnabled(false);
+      setIsMainQueryError(true);
     }
+  };
+
+  const handleSearchClickForPagination = () => {
+    setFinalData(undefined);
+    setIsQueryEnabled(true);
   };
 
   useEffect(() => {
     if (isQueryEnabled) {
       setIsQueryEnabled(false);
     }
-  }, [searchTerm, isQueryEnabled]);
-
-  console.log(finalData);
+  }, [isQueryEnabled]);
 
   return (
     <VStack bgColor='gray.100' minH='100vh'>
       <Navbar />
       <VStack pt={20} spacing={10}>
         <Heading color='gray.700' fontSize={{ base: "2xl", md: "4xl" }}>
-          Search for your <chakra.span color='blue.500'>favorites</chakra.span>{" "}
+          Search for your <chakra.span color='blue.500'>favorite</chakra.span>{" "}
           books
         </Heading>
         <Searchbar
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
           handleSearchClick={handleSearchClick}
+          isError={isMainQueryError}
+          setIsError={setIsMainQueryError}
         />
       </VStack>
       {isLoading && <LoadingAni />}
+      {isError && (
+        <ErrorMessage customMessage="We couldn't find your books. Please try again later." />
+      )}
+      {finalData && finalData.totalItems === 0 && (
+        <NoBooksFound
+          setFinalData={setFinalData}
+          setSearchTerm={setSearchTerm}
+        />
+      )}
+      {finalData && finalData.totalItems > 0 && (
+        <BooksContainer
+          handleSearchClick={handleSearchClickForPagination}
+          data={finalData}
+          page={page}
+          setPage={setPage}
+        />
+      )}
     </VStack>
   );
 };
