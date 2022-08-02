@@ -6,6 +6,7 @@ export const SearchTerm = z.object({
   title: z.string().optional(),
   category: z.string().optional(),
   publisher: z.string().optional(),
+  langCode: z.string().optional(),
 });
 
 export type ISearchTerm = z.TypeOf<typeof SearchTerm>;
@@ -16,6 +17,7 @@ export const SearchTermInput = z.object({
   title: z.string().optional(),
   category: z.string().optional(),
   publisher: z.string().optional(),
+  langCode: z.string().optional(),
   startIndex: z.number().default(0),
 });
 

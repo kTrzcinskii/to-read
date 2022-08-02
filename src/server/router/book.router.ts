@@ -8,7 +8,7 @@ import { TRPCError } from "@trpc/server";
 export const bookRouter = createProtectedRouter().query("get-books", {
   input: SearchTermInput,
   async resolve({ input }) {
-    const { mainQuery, startIndex, ...rest } = input;
+    const { mainQuery, startIndex, langCode, ...rest } = input;
     const API_KEY = process.env.GOOGLE_API_KEY;
 
     let queryLink = `${API_BASE_LINK}key=${API_KEY}&maxResults=${MAX_RESULTS}&startIndex=${startIndex}&q=${mainQuery}`;
@@ -17,6 +17,10 @@ export const bookRouter = createProtectedRouter().query("get-books", {
         const newKeyName = mapQueryKeys(key);
         queryLink += `+${newKeyName}:${value}`;
       }
+    }
+
+    if (langCode !== "") {
+      queryLink += `&langRestrict=${langCode}`;
     }
 
     try {
