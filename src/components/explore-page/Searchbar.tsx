@@ -62,7 +62,7 @@ const Searchbar: React.FC<SearchbarProps> = ({
 
   const label =
     languagesList.filter((language) => language.value === langCode)[0]?.label ||
-    "Select";
+    "Select book language...";
 
   return (
     <VStack
