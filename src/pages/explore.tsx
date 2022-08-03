@@ -1,5 +1,6 @@
-import { Heading, VStack, chakra } from "@chakra-ui/react";
+import { Heading, VStack, chakra, Flex } from "@chakra-ui/react";
 import type { NextPage } from "next";
+import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import BooksContainer from "../components/explore-page/BooksContainer";
 import NoBooksFound from "../components/explore-page/NoBooksFound";
@@ -50,6 +51,24 @@ const ExplorePage: NextPage = () => {
       setIsQueryEnabled(false);
     }
   }, [isQueryEnabled]);
+
+  const { status: sessionStatus } = useSession();
+
+  if (sessionStatus === "loading") {
+    return (
+      <VStack bgColor='gray.100' minH='100vh' justifyContent='center'>
+        <LoadingAni />
+      </VStack>
+    );
+  }
+
+  if (sessionStatus === "unauthenticated") {
+    return (
+      <VStack bgColor='gray.100' minH='100vh' justifyContent='center'>
+        <ErrorMessage customMessage='This page is available only for authenticated users' />
+      </VStack>
+    );
+  }
 
   return (
     <VStack bgColor='gray.100' minH='100vh'>
