@@ -78,7 +78,7 @@ interface SingleVolumeInfo {
   title: string;
   subtitle: string;
   authors: string[];
-  publishedDate: number;
+  publishedDate: string;
   publisher: string;
   description: string;
   industryIdentifiers: { type: string; identifier: string }[];
