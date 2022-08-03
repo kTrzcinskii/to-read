@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import { z } from "zod";
 
 export const SearchTerm = z.object({
@@ -19,6 +20,10 @@ export const SearchTermInput = z.object({
   publisher: z.string().optional(),
   langCode: z.string().optional(),
   startIndex: z.number().default(0),
+});
+
+export const GetSingleBookInput = z.object({
+  bookId: z.string(),
 });
 
 interface VolumeInfo {
@@ -67,4 +72,43 @@ export interface IReturnManyBooks {
   kind: string;
   totalItems: number;
   items: ReturnManyBooksSingleEleemt[];
+}
+
+interface SingleVolumeInfo {
+  title: string;
+  subtitle: string;
+  authors: string[];
+  publishedDate: number;
+  publisher: string;
+  description: string;
+  industryIdentifiers: { type: string; identifier: string }[];
+  readingModes: { text: boolean; image: boolean };
+  pageCount: number;
+  printedPageCount: number;
+  printType: string;
+  categories: string[];
+  maturityRating: string;
+  allowAnonLogging: boolean;
+  imageLinks: {
+    smallThumbnail: string;
+    thumbnail: string;
+    small: string;
+    medium: string;
+    large: string;
+  };
+  previewLink: string;
+  infoLink: string;
+  canonicalVolumeLink: string;
+  language: string;
+}
+
+export interface IReturnSingleBook {
+  kind: string;
+  id: string;
+  etag: string;
+  selfLink: string;
+  volumeInfo: SingleVolumeInfo;
+  layerInfo: any;
+  salesInfo: any;
+  accessInfo: any;
 }
