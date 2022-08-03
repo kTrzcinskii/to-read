@@ -11,7 +11,7 @@ export const bookRouter = createProtectedRouter().query("get-books", {
     const { mainQuery, startIndex, langCode, ...rest } = input;
     const API_KEY = process.env.GOOGLE_API_KEY;
 
-    let queryLink = `${API_BASE_LINK}key=${API_KEY}&maxResults=${MAX_RESULTS}&startIndex=${startIndex}&q=${mainQuery}`;
+    let queryLink = `${API_BASE_LINK}?key=${API_KEY}&maxResults=${MAX_RESULTS}&startIndex=${startIndex}&q=${mainQuery}`;
     for (const [key, value] of Object.entries(rest)) {
       if (value) {
         const newKeyName = mapQueryKeys(key);
