@@ -203,7 +203,7 @@ const Searchbar: React.FC<SearchbarProps> = ({
               />
               <Box w='full'>
                 <Select
-                  placeholder='Select book language..'
+                  placeholder='Select book language...'
                   //@ts-ignore
                   styles={selectStyles}
                   options={languagesList}
@@ -212,7 +212,7 @@ const Searchbar: React.FC<SearchbarProps> = ({
                     setSearchTerm((prev) => ({ ...prev, langCode: e?.value }))
                   }
                   value={
-                    langCode !== ""
+                    langCode !== "" && langCode !== undefined
                       ? { value: searchTerm.langCode, label: label }
                       : null
                   }
