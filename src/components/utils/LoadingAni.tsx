@@ -22,7 +22,7 @@ const loadingCircleVariants = {
     y: "80%",
     transition: {
       duration: 0.5,
-      reverse: Infinity,
+      yoyo: Infinity,
       ease: "easeInOut",
     },
   },
