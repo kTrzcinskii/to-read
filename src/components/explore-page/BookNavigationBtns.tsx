@@ -1,12 +1,13 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import { Button, HStack, IconButton } from "@chakra-ui/react";
 import { Dispatch, SetStateAction } from "react";
+import { flushSync } from "react-dom";
 
 interface BookNavigationBtnsProps {
   page: number;
   setPage: Dispatch<SetStateAction<number>>;
   numOfItems: number;
-  handleSearchClick: () => void;
+  handleSearchClick: (x: number) => void;
 }
 
 const BookNavigationBtns: React.FC<BookNavigationBtnsProps> = ({
@@ -23,7 +24,7 @@ const BookNavigationBtns: React.FC<BookNavigationBtnsProps> = ({
         icon={<ChevronLeftIcon fontSize='2xl' />}
         onClick={() => {
           setPage((prev) => prev - 1);
-          handleSearchClick();
+          handleSearchClick(-1);
         }}
         bgColor='white'
         color='blue.500'
@@ -36,7 +37,7 @@ const BookNavigationBtns: React.FC<BookNavigationBtnsProps> = ({
         icon={<ChevronRightIcon fontSize='2xl' />}
         onClick={() => {
           setPage((prev) => prev + 1);
-          handleSearchClick();
+          handleSearchClick(1);
         }}
         bgColor='white'
         color='blue.500'

@@ -8,7 +8,7 @@ interface BooksContainerProps {
   data: IReturnManyBooks;
   page: number;
   setPage: Dispatch<SetStateAction<number>>;
-  handleSearchClick: () => void;
+  handleSearchClick: (x: number) => void;
 }
 
 const BooksContainer: React.FC<BooksContainerProps> = ({
