@@ -7,6 +7,7 @@ import {
   chakra,
   Button,
   Flex,
+  useToast,
 } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import { useSession } from "next-auth/react";
@@ -18,6 +19,7 @@ import ErrorMessage from "../../components/utils/ErrorMessage";
 import LoadingAni from "../../components/utils/LoadingAni";
 import Navbar from "../../components/utils/Navbar";
 import codeToLang from "../../utils/helpers/codeToLang";
+import toastOptions from "../../utils/helpers/toastOptions";
 import transformCategories from "../../utils/helpers/transformCategories";
 import transformDescription from "../../utils/helpers/transformDescription";
 import { trpc } from "../../utils/trpc";
@@ -33,6 +35,9 @@ const BookPage: NextPage = () => {
     isError,
     error,
   } = trpc.useQuery(["books.get-single-book", { bookId }]);
+
+  const { mutate } = trpc.useMutation(["users.add-book-to-account"]);
+  const toast = useToast();
 
   const { status: sessionStatus } = useSession();
 
@@ -68,6 +73,32 @@ const BookPage: NextPage = () => {
     bookData.volumeInfo.imageLinks?.large ||
     bookData.volumeInfo.imageLinks?.thumbnail ||
     "https://books.google.com/googlebooks/images/no_cover_thumb.gif";
+
+  const handleAddToMyBooks = () => {
+    mutate(
+      {
+        googleId: bookData.id,
+        title: bookData.volumeInfo.title,
+        authors: bookData.volumeInfo.authors,
+        imgLink: imgSrc,
+        pages: bookData.volumeInfo.pageCount,
+      },
+      {
+        onSuccess: () => {
+          const options = toastOptions(
+            "Success",
+            `${bookData.volumeInfo.title} has been successfully added to your books.`,
+            "success"
+          );
+          toast(options);
+        },
+        onError: (e) => {
+          const options = toastOptions("Error", e.message, "error");
+          toast(options);
+        },
+      }
+    );
+  };
 
   return (
     <VStack bgColor='gray.100' minH='100vh' pos='relative'>
@@ -162,7 +193,9 @@ const BookPage: NextPage = () => {
         mx='auto'
         pb={10}
       >
-        <Button colorScheme='blue'>ADD TO MY BOOKS</Button>
+        <Button colorScheme='blue' onClick={handleAddToMyBooks}>
+          ADD TO MY BOOKS
+        </Button>
       </Flex>
     </VStack>
   );
