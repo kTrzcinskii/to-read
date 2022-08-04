@@ -56,7 +56,10 @@ const ExplorePage: NextPage = () => {
     }
   );
 
-  const updateRoute = (num: number = 0) => {
+  const updateRoute = (
+    num: number = 0,
+    defPage: number | undefined = undefined
+  ) => {
     let queryObj: any = {};
     for (const [key, value] of Object.entries(searchTerm)) {
       if (value !== "" && value !== undefined) {
@@ -64,7 +67,7 @@ const ExplorePage: NextPage = () => {
       }
     }
 
-    queryObj.queryPage = page + num;
+    queryObj.queryPage = defPage === undefined ? page + num : defPage;
 
     router.push({ pathname: "/explore", query: { ...queryObj } }, undefined, {
       shallow: true,
@@ -76,7 +79,7 @@ const ExplorePage: NextPage = () => {
       setFinalData(undefined);
       setIsQueryEnabled(true);
       setPage(0);
-      updateRoute();
+      updateRoute(0, 0);
     } else {
       setIsQueryEnabled(false);
       setIsMainQueryError(true);
