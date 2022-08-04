@@ -22,7 +22,7 @@ model SimpleBook {
     id         String     @id @default(cuid())
     googleId   String
     title      String
-    author     String?
+    authors    String[]
     pages      Int?
     imgLink    String?
     userRating Int?
