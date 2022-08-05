@@ -1,4 +1,5 @@
-import { AddBookToAccountInput } from "../schema/user.schema";
+import { TRPCError } from "@trpc/server";
+import { AddBookToAccountInput, DeleteBookInput } from "../schema/user.schema";
 import { createProtectedRouter } from "./context";
 
 export const userRouter = createProtectedRouter()
@@ -28,5 +29,24 @@ export const userRouter = createProtectedRouter()
       const completed = books.filter((book) => book.status === "COMPLETED");
 
       return { toRead, inProgress, completed };
+    },
+  })
+  .mutation("delete-book", {
+    input: DeleteBookInput,
+    async resolve({ ctx, input }) {
+      const userId = ctx.session.user.id!;
+
+      const bookToDelete = await ctx.prisma.simpleBook.findUnique({
+        where: { id: input.bookId },
+        select: { userId: true },
+      });
+
+      if (!bookToDelete || bookToDelete.userId !== userId) {
+        throw new TRPCError({ code: "NOT_FOUND" });
+      }
+
+      await ctx.prisma.simpleBook.delete({ where: { id: input.bookId } });
+
+      return { successful: true };
     },
   });

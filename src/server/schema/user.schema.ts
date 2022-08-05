@@ -7,3 +7,7 @@ export const AddBookToAccountInput = z.object({
   pages: z.number().optional(),
   imgLink: z.string(),
 });
+
+export const DeleteBookInput = z.object({
+  bookId: z.string(),
+});
