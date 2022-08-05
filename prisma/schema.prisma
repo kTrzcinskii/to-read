@@ -24,7 +24,7 @@ model SimpleBook {
     title      String
     authors    String[]
     pages      Int?
-    imgLink    String?
+    imgLink    String
     userRating Int?
     userReview String?
     status     BookStatus @default(WANT_TO_READ)

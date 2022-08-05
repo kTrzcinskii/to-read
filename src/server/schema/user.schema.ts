@@ -5,5 +5,5 @@ export const AddBookToAccountInput = z.object({
   title: z.string(),
   authors: z.array(z.string()),
   pages: z.number().optional(),
-  imgLink: z.string().optional(),
+  imgLink: z.string(),
 });
