@@ -3,20 +3,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { ReturnManyBooksSingleEleemt } from "../../server/schema/book.schema";
 import getShortedText from "../../utils/helpers/getShortedText";
-
-interface TooltipForAuthorsProps {
-  authors: string[];
-}
-
-const TooltipForAuthors: React.FC<TooltipForAuthorsProps> = ({ authors }) => {
-  return (
-    <div>
-      {authors.map((author, index) => {
-        return <p key={index}>{author}</p>;
-      })}
-    </div>
-  );
-};
+import TooltipForAuthors from "../utils/TooltipForAuthors";
 
 interface BookCardProps {
   bookInfo: ReturnManyBooksSingleEleemt;
