@@ -80,7 +80,9 @@ const BookPage: NextPage = () => {
         googleId: bookData.id,
         title: bookData.volumeInfo.title,
         authors: bookData.volumeInfo.authors,
-        imgLink: imgSrc,
+        imgLink:
+          bookData.volumeInfo.imageLinks?.thumbnail ||
+          "https://books.google.com/googlebooks/images/no_cover_thumb.gif",
         pages: bookData.volumeInfo.pageCount,
       },
       {
