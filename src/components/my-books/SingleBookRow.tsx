@@ -35,7 +35,7 @@ const SingleBookRow: React.FC<SingleBookRowProps> = ({ bookData, heading }) => {
     router.push(`/book/${bookData.googleId}`);
   };
 
-  const maxCharTitle = useBreakpointValue({ base: 23, md: 30, lg: 23, xl: 30 });
+  const maxCharTitle = useBreakpointValue({ base: 20, md: 30, lg: 20, xl: 30 });
 
   let moveToLeft: BookStatus, moveToRight: BookStatus;
   switch (heading) {
