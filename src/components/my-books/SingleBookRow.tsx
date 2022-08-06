@@ -122,7 +122,7 @@ const SingleBookRow: React.FC<SingleBookRowProps> = ({ bookData, heading }) => {
             <MoveToBtn
               isDisabled={heading === "Want To Read"}
               moveTo={moveToLeft}
-              aria-label='disabled'
+              aria-label='move to left btn'
               icon={useBreakpointValue({
                 base: <ChevronUpIcon />,
                 md: <ChevronUpIcon />,
@@ -133,7 +133,7 @@ const SingleBookRow: React.FC<SingleBookRowProps> = ({ bookData, heading }) => {
             <MoveToBtn
               isDisabled={heading === "Completed"}
               moveTo={moveToRight}
-              aria-label='Move to in progress'
+              aria-label='move to right btn'
               icon={useBreakpointValue({
                 base: <ChevronDownIcon />,
                 md: <ChevronDownIcon />,
