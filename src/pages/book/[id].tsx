@@ -39,9 +39,18 @@ const BookPage: NextPage = () => {
   const { mutate } = trpc.useMutation(["users.add-book-to-account"]);
   const toast = useToast();
 
+  const {
+    data: userBookData,
+    isLoading: isLoadingBook,
+    isError: isErrorBook,
+    error: bookError,
+  } = trpc.useQuery(["users.is-book-in-my-collection", { googleId: bookId }]);
+
   const { status: sessionStatus } = useSession();
 
-  if (sessionStatus === "loading" || isLoading) {
+  const utils = trpc.useContext();
+
+  if (sessionStatus === "loading" || isLoading || isLoadingBook) {
     return (
       <VStack bgColor='gray.100' minH='100vh' justifyContent='center'>
         <LoadingAni />
@@ -60,6 +69,18 @@ const BookPage: NextPage = () => {
   if (!bookData || isError) {
     const message =
       error?.message ||
+      "There was a problem with loading the book data, try again later.";
+
+    return (
+      <VStack bgColor='gray.100' minH='100vh' justifyContent='center'>
+        <ErrorMessage customMessage={message} />
+      </VStack>
+    );
+  }
+
+  if (userBookData === undefined || isErrorBook) {
+    const message =
+      bookError?.message ||
       "There was a problem with loading the book data, try again later.";
 
     return (
@@ -93,6 +114,10 @@ const BookPage: NextPage = () => {
             "success"
           );
           toast(options);
+          utils.invalidateQueries([
+            "users.is-book-in-my-collection",
+            { googleId: bookId },
+          ]);
         },
         onError: (e) => {
           const options = toastOptions("Error", e.message, "error");
@@ -188,17 +213,21 @@ const BookPage: NextPage = () => {
           )}
         </VStack>
       </Stack>
-      <Flex
-        justifyContent='center'
-        alignItems='center'
-        w='full'
-        mx='auto'
-        pb={10}
-      >
-        <Button colorScheme='blue' onClick={handleAddToMyBooks}>
-          ADD TO MY BOOKS
-        </Button>
-      </Flex>
+      {!userBookData ? (
+        <Flex
+          justifyContent='center'
+          alignItems='center'
+          w='full'
+          mx='auto'
+          pb={10}
+        >
+          <Button colorScheme='blue' onClick={handleAddToMyBooks}>
+            ADD TO MY BOOKS
+          </Button>
+        </Flex>
+      ) : (
+        <Flex>TEST</Flex>
+      )}
     </VStack>
   );
 };
