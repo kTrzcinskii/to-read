@@ -28,6 +28,7 @@ const DeleteBody: React.FC<DeleteBodyProps> = ({ title }) => {
 
 interface DeleteFooterProps {
   bookId: string;
+  googleId: string;
   bookTitle: string;
   onClose: () => void;
 }
@@ -36,6 +37,7 @@ const DeleteFooter: React.FC<DeleteFooterProps> = ({
   bookId,
   onClose,
   bookTitle,
+  googleId,
 }) => {
   const { mutate } = trpc.useMutation(["users.delete-book"]);
   const utils = trpc.useContext();
@@ -47,6 +49,10 @@ const DeleteFooter: React.FC<DeleteFooterProps> = ({
       {
         onSuccess: () => {
           utils.invalidateQueries(["users.get-my-books"]);
+          utils.invalidateQueries([
+            "users.is-book-in-my-collection",
+            { googleId },
+          ]);
           onClose();
           toast(
             toastOptions(
@@ -76,9 +82,14 @@ const DeleteFooter: React.FC<DeleteFooterProps> = ({
 interface DeleteBookBtnProps {
   bookId: string;
   bookTitle: string;
+  googleId: string;
 }
 
-const DeleteBookBtn: React.FC<DeleteBookBtnProps> = ({ bookId, bookTitle }) => {
+const DeleteBookBtn: React.FC<DeleteBookBtnProps> = ({
+  bookId,
+  bookTitle,
+  googleId,
+}) => {
   const { onOpen, onClose, isOpen } = useDisclosure();
 
   return (
@@ -107,6 +118,7 @@ const DeleteBookBtn: React.FC<DeleteBookBtnProps> = ({ bookId, bookTitle }) => {
             bookTitle={bookTitle}
             bookId={bookId}
             onClose={onClose}
+            googleId={googleId}
           />
         }
       />

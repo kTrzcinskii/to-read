@@ -129,6 +129,7 @@ const SingleBookRow: React.FC<SingleBookRowProps> = ({ bookData, heading }) => {
                 lg: <ChevronLeftIcon />,
               })}
               bookId={bookData.id}
+              googleId={bookData.googleId}
             />
             <MoveToBtn
               isDisabled={heading === "Completed"}
@@ -140,9 +141,14 @@ const SingleBookRow: React.FC<SingleBookRowProps> = ({ bookData, heading }) => {
                 lg: <ChevronRightIcon />,
               })}
               bookId={bookData.id}
+              googleId={bookData.googleId}
             />
           </HStack>
-          <DeleteBookBtn bookId={bookData.id} bookTitle={bookData.title} />
+          <DeleteBookBtn
+            bookId={bookData.id}
+            bookTitle={bookData.title}
+            googleId={bookData.googleId}
+          />
         </HStack>
       </VStack>
     </HStack>

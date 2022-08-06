@@ -12,6 +12,7 @@ import { trpc } from "../../utils/trpc";
 type MoveToBtnProps = IconButtonProps & {
   moveTo: BookStatus;
   bookId: string;
+  googleId: string;
   isDisabled?: boolean;
 };
 
@@ -19,6 +20,7 @@ const MoveToBtn: React.FC<MoveToBtnProps> = ({
   isDisabled = false,
   bookId,
   moveTo,
+  googleId,
   ...rest
 }) => {
   const { mutate } = trpc.useMutation(["users.move-book"]);
@@ -31,6 +33,10 @@ const MoveToBtn: React.FC<MoveToBtnProps> = ({
       {
         onSuccess: () => {
           utils.invalidateQueries("users.get-my-books");
+          utils.invalidateQueries([
+            "users.is-book-in-my-collection",
+            { googleId },
+          ]);
         },
         onError: (e) => {
           toast(toastOptions("Error", e.message, "error"));
