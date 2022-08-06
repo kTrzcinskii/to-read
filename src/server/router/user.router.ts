@@ -2,6 +2,7 @@ import { TRPCError } from "@trpc/server";
 import {
   AddBookToAccountInput,
   DeleteBookInput,
+  IsBookInMyCollectionInput,
   MoveBookInput,
 } from "../schema/user.schema";
 import { createProtectedRouter } from "./context";
@@ -74,5 +75,21 @@ export const userRouter = createProtectedRouter()
       });
 
       return { successful: true };
+    },
+  })
+  .query("is-book-in-my-collection", {
+    input: IsBookInMyCollectionInput,
+    async resolve({ ctx, input }) {
+      const userId = ctx.session.user.id!;
+
+      const book = await ctx.prisma.simpleBook.findFirst({
+        where: { googleId: input.googleId, userId },
+      });
+
+      if (!book) {
+        return false;
+      }
+
+      return { book };
     },
   });

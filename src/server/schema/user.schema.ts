@@ -16,3 +16,7 @@ export const MoveBookInput = z.object({
   bookId: z.string(),
   moveTo: z.enum(["COMPLETED", "IN_PROGRESS", "WANT_TO_READ"]),
 });
+
+export const IsBookInMyCollectionInput = z.object({
+  googleId: z.string(),
+});
