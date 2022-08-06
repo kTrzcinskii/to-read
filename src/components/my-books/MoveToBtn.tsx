@@ -6,25 +6,13 @@ import {
 } from "@chakra-ui/react";
 import { BookStatus } from "@prisma/client";
 import toastOptions from "../../utils/helpers/toastOptions";
+import transformFromStatusToHeading from "../../utils/helpers/transformFromStatusToHeading";
 import { trpc } from "../../utils/trpc";
 
 type MoveToBtnProps = IconButtonProps & {
   moveTo: BookStatus;
   bookId: string;
   isDisabled?: boolean;
-};
-
-const transformFromStatusToHeading = (
-  s: BookStatus
-): "Want To Read" | "In Progress" | "Completed" => {
-  switch (s) {
-    case "COMPLETED":
-      return "Completed";
-    case "IN_PROGRESS":
-      return "In Progress";
-    case "WANT_TO_READ":
-      return "Want To Read";
-  }
 };
 
 const MoveToBtn: React.FC<MoveToBtnProps> = ({
