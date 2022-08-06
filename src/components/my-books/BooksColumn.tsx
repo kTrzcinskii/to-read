@@ -1,6 +1,7 @@
 import { Button, Heading, Text, VStack } from "@chakra-ui/react";
 import { SimpleBook } from "@prisma/client";
 import { useState } from "react";
+import SearchInput from "./SearchInput";
 import SingleBookRow from "./SingleBookRow";
 
 interface BooksColumnProps {
@@ -8,7 +9,11 @@ interface BooksColumnProps {
   heading: "Want To Read" | "In Progress" | "Completed";
 }
 
-const BooksColumn: React.FC<BooksColumnProps> = ({ books, heading }) => {
+const BooksColumn: React.FC<BooksColumnProps> = ({
+  books: receivedBooks,
+  heading,
+}) => {
+  const [books, setBooks] = useState(receivedBooks);
   const [showAll, setShowAll] = useState(false);
 
   return (
@@ -23,6 +28,7 @@ const BooksColumn: React.FC<BooksColumnProps> = ({ books, heading }) => {
       <Heading color='blue.500' fontSize='3xl' w='full' textAlign='center'>
         {heading}
       </Heading>
+      <SearchInput setBooks={setBooks} books={receivedBooks} />
       {books.length === 0 && (
         <Text w='full' textAlign='center' fontSize='lg' color='red.400'>
           There isn&apos;t any book with this status.
