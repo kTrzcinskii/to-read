@@ -11,3 +11,8 @@ export const AddBookToAccountInput = z.object({
 export const DeleteBookInput = z.object({
   bookId: z.string(),
 });
+
+export const MoveBookInput = z.object({
+  bookId: z.string(),
+  moveTo: z.enum(["COMPLETED", "IN_PROGRESS", "WANT_TO_READ"]),
+});
