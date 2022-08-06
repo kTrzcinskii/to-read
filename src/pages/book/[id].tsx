@@ -15,6 +15,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import SeeMore from "../../components/book-page/SeeMore";
 import TextWithSpan from "../../components/book-page/TextWithSpan";
+import UserActions from "../../components/book-page/UserActions";
 import ErrorMessage from "../../components/utils/ErrorMessage";
 import LoadingAni from "../../components/utils/LoadingAni";
 import Navbar from "../../components/utils/Navbar";
@@ -226,7 +227,7 @@ const BookPage: NextPage = () => {
           </Button>
         </Flex>
       ) : (
-        <Flex>TEST</Flex>
+        <UserActions bookData={userBookData.book} />
       )}
     </VStack>
   );
