@@ -4,11 +4,10 @@ import { SimpleBook } from "@prisma/client";
 import { Dispatch, SetStateAction } from "react";
 
 interface SearchInputProps {
-  setBooks: Dispatch<SetStateAction<SimpleBook[]>>;
-  books: SimpleBook[];
+  setInput: Dispatch<SetStateAction<string>>;
 }
 
-const SearchInput: React.FC<SearchInputProps> = ({ setBooks, books }) => {
+const SearchInput: React.FC<SearchInputProps> = ({ setInput }) => {
   return (
     <InputGroup mx='auto' w='280px'>
       <InputLeftElement>
@@ -17,7 +16,7 @@ const SearchInput: React.FC<SearchInputProps> = ({ setBooks, books }) => {
       <Input
         placeholder='Enter book title...'
         onChange={(e) => {
-          setBooks(books.filter((book) => book.title.includes(e.target.value)));
+          setInput(e.target.value);
         }}
       />
     </InputGroup>

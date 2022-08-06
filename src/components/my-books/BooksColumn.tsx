@@ -10,11 +10,14 @@ interface BooksColumnProps {
 }
 
 const BooksColumn: React.FC<BooksColumnProps> = ({
-  books: receivedBooks,
+  books: sentBooks,
   heading,
 }) => {
-  const [books, setBooks] = useState(receivedBooks);
   const [showAll, setShowAll] = useState(false);
+
+  const [input, setInput] = useState("");
+
+  const books = sentBooks.filter((book) => book.title.includes(input));
 
   return (
     <VStack
@@ -28,7 +31,7 @@ const BooksColumn: React.FC<BooksColumnProps> = ({
       <Heading color='blue.500' fontSize='3xl' w='full' textAlign='center'>
         {heading}
       </Heading>
-      <SearchInput setBooks={setBooks} books={receivedBooks} />
+      <SearchInput setInput={setInput} />
       {books.length === 0 && (
         <Text w='full' textAlign='center' fontSize='lg' color='red.400'>
           There isn&apos;t any book with this status.
